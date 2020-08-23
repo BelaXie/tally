@@ -1,13 +1,9 @@
 <template>
-  <div>
-    money.vue
-    <Nav></Nav>
-  </div>
+  <Layout>
+    <p class="content">money.vue</p>
+  </Layout>
 </template>
 
-<script>
+<script lang="ts">
 export default {};
 </script>
-
-<style lang="scss" scoped>
-</style>
