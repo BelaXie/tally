@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem field-name="标签名" placeholder="请输入标签名" />
+      <FormItem field-name="标签名" placeholder="请输入标签名" :value="tag.name" @update:value="updateTag" />
     </div>
     <div class="button-wrapper">
       <Button>删除标签</Button>
@@ -23,14 +23,21 @@ import FormItem from "@/components/FormItem.vue";
   components: { FormItem }
 })
 export default class EditLabel extends Vue {
+  tag?: { id: string; name: string };
   created() {
     const id = this.$route.params.id;
     tagsModel.fetch();
     const tag = tagsModel.data.filter(item => item.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.tag = tag;
     } else {
       this.$router.replace("/404"); //不用push，防止用户不能直接回退
+    }
+  }
+
+  updateTag(name: string) {
+    if (this.tag) {
+      tagsModel.update(this.tag.id, name);
     }
   }
 }
@@ -44,8 +51,6 @@ export default class EditLabel extends Vue {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  > .title {
-  }
   > .leftIcon {
     width: 24px;
     height: 24px;
