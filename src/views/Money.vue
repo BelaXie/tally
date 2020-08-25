@@ -1,9 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad :value.sync="record.amount" @submit="saveRecord" />
+    <NumberPad :value.sync="record.amount" @submit="createRecord" />
     <Types :value.sync="record.type" />
     <FormItem @update:value="onNotesChanged" fieldName="备注" placeholder="在这里输入备注" />
-    <Tags :dataSource.sync="tags" @update:value="onTagsChanged" />
+    <Tags @update:value="onTagsChanged" />
   </Layout>
 </template>
 
@@ -13,18 +13,15 @@ import Types from "@/components/Money/Types.vue";
 import FormItem from "@/components/FormItem.vue";
 import Tags from "@/components/Money/Tags.vue";
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
-import recordsModel from "../models/recordsModel";
-
-const records = recordsModel.fetch();
+import { Component } from "vue-property-decorator";
+import store from "../store/index2";
 
 @Component({
   components: { NumberPad, Types, FormItem, Tags }
 })
 export default class Money extends Vue {
   name = "Money";
-  tags = window.tags;
-  records: recordType[] = records;
+  records = store.records;
   record: recordType = {
     selectTags: [],
     notes: "",
@@ -40,13 +37,8 @@ export default class Money extends Vue {
     this.record.selectTags = value;
   }
 
-  saveRecord() {
-    recordsModel.create(this.record);
-  }
-
-  @Watch("records")
-  onRecordsChange() {
-    recordsModel.save();
+  createRecord() {
+    store.createRecord(this.record);
   }
 }
 </script>

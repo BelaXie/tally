@@ -11,10 +11,6 @@ type Tag = {
   name: string;
 };
 
-interface Window {
-  tags: Tag[];
-  createTag: (name: string) => void;
-  updateTag: (id: string, name: string) => string;
-  removeTag: (id: string) => boolean;
-  findTag: (id: string) => Tag;
-}
+// interface Window {
+
+// }
