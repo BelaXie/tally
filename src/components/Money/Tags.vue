@@ -9,9 +9,7 @@
         :key="tag"
         @click="toggle(tag)"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
-      >
-        {{ tag }}
-      </li>
+      >{{ tag }}</li>
     </ul>
   </div>
 </template>
@@ -47,6 +45,7 @@ export default class Tags extends Vue {
   padding: 16px;
   flex-grow: 1;
   display: flex;
+  background-color: white;
   flex-direction: column-reverse;
   > .current {
     display: flex;
