@@ -15,14 +15,16 @@ import Tags from "@/components/Money/Tags.vue";
 import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 import recordsModel from "../models/recordsModel";
-import tagsModel from "../models/tagsModel";
+
+const records = recordsModel.fetch();
 
 @Component({
   components: { NumberPad, Types, FormItem, Tags }
 })
 export default class Money extends Vue {
   name = "Money";
-  tags = tagsModel.data.map(item => item.name);
+  tags = window.tags;
+  records: recordType[] = records;
   record: recordType = {
     selectTags: [],
     notes: "",
@@ -30,21 +32,21 @@ export default class Money extends Vue {
     amount: 10
   };
 
-  records = recordsModel.fetch();
   onNotesChanged(value: string) {
     this.record.notes = value;
   }
+
   onTagsChanged(value: string[]) {
     this.record.selectTags = value;
   }
+
   saveRecord() {
-    this.record.createdAt = new Date();
-    const record2 = recordsModel.clone(this.record);
-    this.records.push(record2);
+    recordsModel.create(this.record);
   }
+
   @Watch("records")
   onRecordsChange() {
-    recordsModel.save(this.records);
+    recordsModel.save();
   }
 }
 </script>

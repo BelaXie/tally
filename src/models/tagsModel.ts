@@ -1,9 +1,5 @@
 import createId from "../lib/createId";
 const localStorageKey = "tags";
-type Tag = {
-  id: string;
-  name: string;
-};
 type TagsModel = {
   data: Tag[];
   create: (value: string) => "success" | "duplicated";

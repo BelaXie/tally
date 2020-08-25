@@ -1,15 +1,25 @@
+import clone from "../lib/clone";
+
 const localStorageKey = "records";
+
 const recordsModel = {
-  clone(data: recordType[] | recordType) {
-    return JSON.parse(JSON.stringify(data));
-  },
+  data: [] as recordType[],
+
   fetch() {
-    return JSON.parse(
+    this.data = JSON.parse(
       window.localStorage.getItem(localStorageKey) || "[]"
-    ) as recordType[];
+    );
+    return this.data;
   },
-  save(value: recordType[]) {
-    window.localStorage.setItem(localStorageKey, JSON.stringify(value));
+
+  create(record: recordType) {
+    record.createdAt = new Date();
+    const record2 = clone(record);
+    this.data.push(record2);
+  },
+
+  save() {
+    window.localStorage.setItem(localStorageKey, JSON.stringify(this.data));
   },
 };
 export default recordsModel;
