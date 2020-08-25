@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left" />
+      <Icon class="leftIcon" name="left" @click="goback" />
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
@@ -9,7 +9,7 @@
       <FormItem field-name="标签名" placeholder="请输入标签名" :value="tag.name" @update:value="updateTag" />
     </div>
     <div class="button-wrapper">
-      <Button>删除标签</Button>
+      <Button @click="removeTag">删除标签</Button>
     </div>
   </Layout>
 </template>
@@ -39,6 +39,17 @@ export default class EditLabel extends Vue {
     if (this.tag) {
       tagsModel.update(this.tag.id, name);
     }
+  }
+
+  removeTag() {
+    if (this.tag) {
+      tagsModel.remove(this.tag.id);
+      this.$router.back();
+    }
+  }
+
+  goback() {
+    this.$router.back();
   }
 }
 </script>
