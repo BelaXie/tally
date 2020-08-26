@@ -4,18 +4,14 @@ import clone from "@/lib/clone";
 import createId from "@/lib/createId";
 
 Vue.use(Vuex);
-type State = {
-  records: recordType[];
-  tags: Tag[];
-  currentTag?: Tag;
-};
+
 
 const store = new Vuex.Store({
   state: {
     records: [],
     tags: [],
     currentTag: undefined,
-  } as State,
+  } as StateType,
   mutations: {
     fetchRecords(state) {
       state.records = JSON.parse(
@@ -27,7 +23,7 @@ const store = new Vuex.Store({
     },
     createRecord(state, record: recordType) {
       const record2: recordType = clone(record);
-      record2.createdAt = new Date();
+      record2.createdAt = new Date().toISOString();
       state.records && state.records.push(record2);
       store.commit("saveRecords");
     },
