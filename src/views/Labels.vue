@@ -13,19 +13,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import store from "../store/index2";
+import store from "../store";
+import { mixins } from "vue-class-component";
+import { CreateTag } from "../mixins/createTag";
 
 @Component
-export default class Labels extends Vue {
-  tags = store.tags;
-
-  createTag() {
-    const name = window.prompt("请输入标签名");
-    if (name) {
-      store.createTag(name);
-    }
+export default class Labels extends mixins(CreateTag) {
+  get tags() {
+    return store.state.tags;
+  }
+  created() {
+    store.commit("fetchTags");
   }
 }
 </script>
