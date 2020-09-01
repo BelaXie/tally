@@ -10,13 +10,13 @@ type StateType = {
   records: recordType[];
   tags: Tag[];
   currentTag?: Tag;
+  createInfo: string;
 };
 
 type Tag = {
   id: string;
   name: string;
 };
-
 // interface Window {
 
 // }

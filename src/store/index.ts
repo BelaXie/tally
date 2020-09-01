@@ -5,12 +5,12 @@ import createId from "@/lib/createId";
 
 Vue.use(Vuex);
 
-
 const store = new Vuex.Store({
   state: {
     records: [],
     tags: [],
     currentTag: undefined,
+    createInfo: "",
   } as StateType,
   mutations: {
     fetchRecords(state) {
@@ -29,16 +29,20 @@ const store = new Vuex.Store({
     },
     fetchTags(state) {
       state.tags = JSON.parse(window.localStorage.getItem("tags") || "[]");
+      store.commit("createTag", "衣");
+      store.commit("createTag", "食");
+      store.commit("createTag", "住");
+      store.commit("createTag", "行");
     },
     createTag(state, name: string) {
       const names = state.tags.map((item) => item.name);
       if (names.indexOf(name) >= 0) {
-        window.alert("标签名重复了");
+        state.createInfo = "duplicate tag name";
       } else {
         const id = createId().toString();
         state.tags.push({ id, name: name });
         store.commit("saveTags");
-        window.alert("添加成功");
+        state.createInfo = "success";
       }
     },
     saveTags(state) {

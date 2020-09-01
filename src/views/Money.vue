@@ -2,11 +2,7 @@
   <Layout class-prefix="layout">
     <NumberPad :value.sync="record.amount" @submit="createRecord" />
     <Tabs :value.sync="record.type" :dataSource="recordTypeList" />
-    <FormItem
-      @update:value="onNotesChanged"
-      fieldName="备注"
-      placeholder="在这里输入备注"
-    />
+    <FormItem @update:value="onNotesChanged" fieldName="备注" placeholder="在这里输入备注" />
     <Tags @update:value="onTagsChanged" />
   </Layout>
 </template>
@@ -22,14 +18,14 @@ import store from "../store";
 import recordTypeList from "../constants/recordTypeList";
 
 @Component({
-  components: { NumberPad, FormItem, Tags, Tabs },
+  components: { NumberPad, FormItem, Tags, Tabs }
 })
 export default class Money extends Vue {
   record: recordType = {
     selectTags: [],
     notes: "",
     type: "-",
-    amount: 0,
+    amount: 0
   };
   recordTypeList = recordTypeList;
   get records() {
@@ -48,7 +44,12 @@ export default class Money extends Vue {
   }
 
   createRecord() {
-    store.commit("createRecord", this.record);
+    if (this.record.selectTags.length === 0) {
+      window.alert("请至少选择一个标签！");
+    } else {
+      store.commit("createRecord", this.record);
+      window.alert("添加成功！");
+    }
   }
 }
 </script>

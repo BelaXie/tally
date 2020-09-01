@@ -18,6 +18,7 @@ body {
 }
 #app{
   max-width: 500px;
+  // max-heigth:100vh;
   margin: 0 auto;
 }
 </style>

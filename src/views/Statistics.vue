@@ -1,48 +1,24 @@
 <template>
   <Layout>
-    <Tabs
-      class-prefix="type"
-      :data-source="recordTypeList"
-      :value.sync="recordType"
-    />
-    <ol>
+    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="recordType" />
+    <p v-if="groupedList.length===0" class="tips">提示：当前还没有任何内容哦</p>
+    <ol v-else>
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">
-          {{ beautify(group.title) }} <span>￥{{ group.total }}</span>
+          {{ beautify(group.title) }}
+          <span>￥{{ group.total }}</span>
         </h3>
         <ol>
           <li v-for="item in group.items" :key="item.id" class="record">
             <span>{{ tagString(item.selectTags) }}</span>
             <span class="notes">{{ item.notes }}</span>
-            <span>￥{{ item.amount }} </span>
+            <span>￥{{ item.amount }}</span>
           </li>
         </ol>
       </li>
     </ol>
   </Layout>
 </template>
-
-<style scoped lang="scss">
-%item {
-  padding: 8px 16px;
-  line-height: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-}
-.title {
-  @extend %item;
-}
-.record {
-  background: white;
-  @extend %item;
-}
-.notes {
-  margin-right: auto;
-  margin-left: 16px;
-  color: #999;
-}
-</style>
 
 <script lang="ts">
 import Vue from "vue";
@@ -53,7 +29,7 @@ import intervalList from "../constants/intervalList";
 import dayjs from "dayjs";
 import clone from "../lib/clone";
 @Component({
-  components: { Tabs },
+  components: { Tabs }
 })
 export default class Statistics extends Vue {
   recordType = "-";
@@ -81,7 +57,7 @@ export default class Statistics extends Vue {
     if (tags.length === 0) {
       return "无";
     } else {
-      return tags.map((item) => item.name).join(",");
+      return tags.map(item => item.name).join(",");
     }
   }
 
@@ -95,36 +71,37 @@ export default class Statistics extends Vue {
       return [];
     }
     const newList = clone(records)
-      .filter((r) => r.type === this.recordType)
+      .filter(r => r.type === this.recordType)
       .sort(
         (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
       );
     type Result = { title: string; total?: number; items: recordType[] }[];
-    const result: Result = [
-      {
-        title: dayjs(newList[0].createdAt).format("YYYY-MM-DD"),
-        items: [newList[0]],
-      },
-    ];
-    for (let i = 1; i < newList.length; i++) {
-      const current = newList[i];
-      const last = result[result.length - 1];
-      if (dayjs(last.title).isSame(dayjs(current.createdAt), "day")) {
-        last.items.push(current);
-      } else {
-        result.push({
-          title: dayjs(current.createdAt).format("YYYY-MM-DD"),
-          items: [current],
-        });
+    let result: Result = [];
+    if (newList.length != 0) {
+      result = [
+        {
+          title: dayjs(newList[0].createdAt).format("YYYY-MM-DD"),
+          items: [newList[0]]
+        }
+      ];
+      for (let i = 1; i < newList.length; i++) {
+        const current = newList[i];
+        const last = result[result.length - 1];
+        if (dayjs(last.title).isSame(dayjs(current.createdAt), "day")) {
+          last.items.push(current);
+        } else {
+          result.push({
+            title: dayjs(current.createdAt).format("YYYY-MM-DD"),
+            items: [current]
+          });
+        }
       }
+      result.map(group => {
+        group.total = group.items.reduce((sum, item) => {
+          return sum + item.amount;
+        }, 0);
+      });
     }
-    result.map((group) => {
-      group.total = group.items.reduce((sum, item) => {
-        console.log(sum);
-        console.log(item);
-        return sum + item.amount;
-      }, 0);
-    });
     return result;
   }
   created() {
@@ -133,7 +110,31 @@ export default class Statistics extends Vue {
 }
 </script>
 
+
 <style scoped lang="scss">
+%item {
+  padding: 8px 16px;
+  line-height: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+.title {
+  @extend %item;
+}
+.record {
+  background: white;
+  @extend %item;
+}
+.notes {
+  margin-right: auto;
+  margin-left: 16px;
+  color: #999;
+}
+.tips {
+  font-size: 14px;
+  color: #18161669;
+}
 ::v-deep .type-tabs-item {
   background: #c4c4c4;
   &.selected {

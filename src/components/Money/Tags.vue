@@ -20,6 +20,8 @@ import { mixins } from "vue-class-component";
 import { CreateTag } from "../../mixins/createTag";
 @Component
 export default class Tags extends mixins(CreateTag) {
+  selectedTags: string[] = [];
+
   get tags() {
     return store.state.tags;
   }
@@ -27,7 +29,6 @@ export default class Tags extends mixins(CreateTag) {
   created() {
     store.commit("fetchTags");
   }
-  selectedTags: string[] = [];
 
   toggle(tag: string) {
     const index = this.selectedTags.indexOf(tag);

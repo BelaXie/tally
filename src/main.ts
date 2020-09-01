@@ -19,3 +19,10 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount("#app");
+
+// window.onload = function() {
+//   setTimeout(() => {
+//     document.body.scrollTo(0, 10000);
+//   }, 0);
+//   window.alert("为确保浏览效果，建议使用手机观看");
+// };
