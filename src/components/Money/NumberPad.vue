@@ -86,7 +86,7 @@ export default class NumberPad extends Vue {
       &.zero {
         width: 25 * 2%;
       }
-      $bg: #f2f2f2;
+      $bg: #E2EAF1;
       &:nth-child(1) {
         background: $bg;
       }

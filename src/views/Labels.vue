@@ -13,18 +13,30 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import store from "../store";
-import { mixins } from "vue-class-component";
-import { CreateTag } from "../mixins/createTag";
 
 @Component
-export default class Labels extends mixins(CreateTag) {
+export default class Labels extends Vue {
   get tags() {
     return store.state.tags;
   }
   created() {
     store.commit("fetchTags");
+  }
+  createTag() {
+    const name = window.prompt("请输入标签名");
+    if (!name) {
+      return window.alert("标签名不能为空");
+    } else {
+      store.commit("createTag", name);
+      if (store.state.createInfo === "duplicate tag name") {
+        window.alert("标签名重复了");
+      } else if (store.state.createInfo === "success") {
+        window.alert("创建成功");
+      }
+    }
   }
 }
 </script>

@@ -1,7 +1,9 @@
 <template>
   <div class="tags">
     <div class="new">
-      <button @click="createTag">新增标签</button>
+      <router-link to="/labels" class="item">
+        <button>管理标签</button>
+      </router-link>
     </div>
     <ul class="current">
       <li
@@ -9,17 +11,20 @@
         :key="tag.id"
         @click="toggle(tag)"
         :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
-      >{{ tag.name }}</li>
+      >
+        <Icon name="small-label" />
+        {{ tag.name }}
+      </li>
     </ul>
   </div>
 </template>
 <script lang="ts">
 import { Component } from "vue-property-decorator";
 import store from "../../store/index";
-import { mixins } from "vue-class-component";
-import { CreateTag } from "../../mixins/createTag";
+import Vue from "vue";
+
 @Component
-export default class Tags extends mixins(CreateTag) {
+export default class Tags extends Vue {
   selectedTags: string[] = [];
 
   get tags() {
@@ -53,7 +58,7 @@ export default class Tags extends mixins(CreateTag) {
     display: flex;
     flex-wrap: wrap;
     > li {
-      $bg: #d9d9d9;
+      $bg: rgb(226, 234, 241);
       background: $bg;
       $h: 24px;
       height: $h;
@@ -63,7 +68,7 @@ export default class Tags extends mixins(CreateTag) {
       margin-right: 12px;
       margin-top: 4px;
       &.selected {
-        background: darken($color: $bg, $amount: 70%);
+        background: darken($color: $bg, $amount: 50%);
         color: white;
       }
     }
