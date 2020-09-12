@@ -22,7 +22,7 @@ import recordTypeList from "../constants/recordTypeList";
 })
 export default class Money extends Vue {
   record: recordType = {
-    selectTags: [],
+    selectedTag: null,
     notes: "",
     type: "-",
     amount: 0
@@ -39,13 +39,13 @@ export default class Money extends Vue {
     this.record.notes = value;
   }
 
-  onTagsChanged(value: string[]) {
-    this.record.selectTags = value;
+  onTagsChanged(value: Tag) {
+    this.record.selectedTag = value;
   }
 
   createRecord() {
-    if (this.record.selectTags.length === 0) {
-      window.alert("请至少选择一个标签！");
+    if (this.record.selectedTag === null) {
+      window.alert("你还没有选择标签哦！");
     } else {
       store.commit("createRecord", this.record);
       window.alert("添加成功！");

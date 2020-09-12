@@ -10,7 +10,7 @@
         v-for="tag in tags"
         :key="tag.id"
         @click="toggle(tag)"
-        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+        :class="{ selected: selectedTag===tag}"
       >
         <Icon name="small-label" />
         {{ tag.name }}
@@ -25,7 +25,7 @@ import Vue from "vue";
 
 @Component
 export default class Tags extends Vue {
-  selectedTags: string[] = [];
+  selectedTag: Tag | null = null;
 
   get tags() {
     return store.state.tags;
@@ -35,14 +35,13 @@ export default class Tags extends Vue {
     store.commit("fetchTags");
   }
 
-  toggle(tag: string) {
-    const index = this.selectedTags.indexOf(tag);
-    if (index >= 0) {
-      this.selectedTags.splice(index, 1);
+  toggle(tag: Tag) {
+    if (this.selectedTag && tag.id === this.selectedTag.id) {
+      this.selectedTag = null;
     } else {
-      this.selectedTags.push(tag);
+      this.selectedTag = tag;
     }
-    this.$emit("update:value", this.selectedTags);
+    this.$emit("update:value", this.selectedTag);
   }
 }
 </script>

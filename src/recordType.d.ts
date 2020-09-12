@@ -1,5 +1,5 @@
 type recordType = {
-  selectTags: string[];
+  selectedTag: string[];
   notes: string;
   type: string;
   amount: number;

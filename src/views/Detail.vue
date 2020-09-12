@@ -10,7 +10,7 @@
         </h3>
         <ol>
           <li v-for="item in group.items" :key="item.id" class="record">
-            <span>{{ tagString(item.selectTags) }}</span>
+            <span>{{ item.selectedTag.name}}</span>
             <span class="notes">{{ item.notes }}</span>
             <span>￥{{ item.amount }}</span>
           </li>
@@ -50,14 +50,6 @@ export default class Statistics extends Vue {
       return day.format("M月D日");
     } else {
       return day.format("YYYY年M月D日");
-    }
-  }
-
-  tagString(tags: Tag[]) {
-    if (tags.length === 0) {
-      return "无";
-    } else {
-      return tags.map(item => item.name).join(",");
     }
   }
 

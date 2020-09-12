@@ -1,5 +1,5 @@
 type recordType = {
-  selectTags: string[];
+  selectedTag: Tag | null;
   notes: string;
   type: string;
   amount: number;
@@ -11,6 +11,16 @@ type StateType = {
   tags: Tag[];
   currentTag?: Tag;
   createInfo: string;
+  dateRange: {
+    year: number[] | null;
+    month: number[] | null;
+    day: number[] | null;
+  };
+  currentDate: {
+    year: number;
+    month: number;
+    day: number;
+  };
 };
 
 type Tag = {

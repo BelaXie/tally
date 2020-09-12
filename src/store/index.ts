@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import clone from "@/lib/clone";
 import createId from "@/lib/createId";
+import DbDate from "../constants/date";
 
 Vue.use(Vuex);
 
@@ -11,8 +12,29 @@ const store = new Vuex.Store({
     tags: [],
     currentTag: undefined,
     createInfo: "",
+    dateRange: { year: null, month: null, day: null },
+    currentDate: {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+      day: new Date().getDate(),
+    },
   } as StateType,
   mutations: {
+    updateDbDate(state, type: string) {
+      if (type === "month") {
+        state.dateRange.year = DbDate.year;
+        state.dateRange.month = DbDate.month;
+        state.dateRange.day = null;
+      } else if (type === "year") {
+        state.dateRange.day = null;
+        state.dateRange.month = null;
+        state.dateRange.year = DbDate.year;
+      } else {
+        state.dateRange.year = DbDate.year;
+        state.dateRange.month = DbDate.month;
+        state.dateRange.day = DbDate.day;
+      }
+    },
     fetchRecords(state) {
       state.records = JSON.parse(
         window.localStorage.getItem("records") || "[]"
