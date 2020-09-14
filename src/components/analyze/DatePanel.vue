@@ -1,7 +1,7 @@
 <template>
   <div class="panel" v-show="isShowDatePanel">
     <div class="top">
-      <span class="cancel" @click="cancel">隐藏</span>
+      <span class="now" @click="now">当前</span>
       <em class="chosen">
         <span v-if="dateRange.year">{{year}}</span>
         <span v-if="dateRange.month">-</span>
@@ -9,7 +9,7 @@
         <span v-if="dateRange.day">-</span>
         <span v-if="dateRange.day">{{day}}</span>
       </em>
-      <span class="now" @click="now">当前</span>
+      <span class="ok" @click="ok">确定</span>
     </div>
     <div class="main">
       <DateList
@@ -63,16 +63,13 @@ export default class DatePanel extends Vue {
   get dateRange() {
     return store.state.dateRange;
   }
-  cancel() {
+  ok() {
     this.$emit("update:isShowDatePanel", false);
   }
   now() {
     store.state.currentDate.year = new Date().getFullYear();
     store.state.currentDate.month = new Date().getMonth() + 1;
     store.state.currentDate.day = new Date().getDate();
-    console.log(this.year);
-    console.log(this.month);
-    console.log(this.day);
   }
 }
 </script>
@@ -87,13 +84,13 @@ export default class DatePanel extends Vue {
     display: flex;
     justify-content: space-between;
     padding: 15px 20px;
-    > .cancel {
-      color: #b0aaaa;
+    > .now {
+      color: #ee6b8c;
     }
     > .chosen {
       font-size: 18px;
     }
-    > .now {
+    > .ok {
       color: #5594cb;
     }
   }

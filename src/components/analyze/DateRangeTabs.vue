@@ -25,7 +25,9 @@ export default class Tabs extends Vue {
   @Prop(String) classPrefix?: string;
 
   select(value: string) {
-    store.commit("updateDbDate", value);
+    if (["day", "week", "month"].indexOf(value) >= 0) {
+      store.commit("updateDbDate", value);
+    }
     this.$emit("update:value", value);
   }
 
@@ -42,6 +44,9 @@ export default class Tabs extends Vue {
   background: #f5f5f5;
   height: 24px;
   display: flex;
+  > .type-tabs-item {
+    background: #fcfcfc;
+  }
   > li {
     width: 40px;
     display: flex;

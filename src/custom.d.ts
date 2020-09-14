@@ -6,6 +6,10 @@ type recordType = {
   createdAt?: string;
 };
 
+type sourceType={
+  product:string,
+  count:number
+}
 type StateType = {
   records: recordType[];
   tags: Tag[];
