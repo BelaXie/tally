@@ -12,15 +12,16 @@
         <span>&#x25BC;</span>
       </em>
     </div>
-    <div class="chart-wrapper" @click="hideDatePanel">
+    <div class="chart-wrapper">
       <div class="chart-title">
-        <span class="subtitle">月度分析</span>
+        <span v-if="currentInterval === 'month'" class="subtitle">月度分析</span>
+        <span v-if="currentInterval === 'year'" class="subtitle">年度分析</span>
         <AccountTypeTabs classPrefix="type" :data-source="accountType" :value.sync="currentAccount" />
       </div>
       <Chart :source="source" />
     </div>
-    <div class="category">category</div>
-    <DatePanel :isShowDatePanel.sync="isShowDatePanel" />
+    <DatePanel :isShowDatePanel.sync="isShowDatePanel" v-if="isShowDatePanel" />
+    <Cover v-if="isShowDatePanel" :isShowDatePanel.sync="isShowDatePanel" />
   </Layout>
 </template>
 <script lang="ts">
@@ -33,9 +34,10 @@ import DatePanel from "../components/analyze/DatePanel.vue";
 import store from "../store/index";
 import Chart from "../components/analyze/Chart.vue";
 import recordTypeList from "../constants/recordTypeList";
+import Cover from "../components/Cover.vue";
 
 @Component({
-  components: { DateRangeTabs, DatePanel, Chart, AccountTypeTabs },
+  components: { DateRangeTabs, DatePanel, Chart, AccountTypeTabs, Cover },
 })
 export default class Analyze extends Vue {
   intervalType = intervalType;
@@ -103,8 +105,9 @@ export default class Analyze extends Vue {
       if (index === -1) {
         setSourceItem(createdYear, createdMonth, createdAccountType, () => {
           const obj: sourceType = {
-            product: tagName,
+            tagName,
             count: records[i].amount,
+            proportion: null,
           };
           source.push(obj);
         });
@@ -114,11 +117,41 @@ export default class Analyze extends Vue {
         });
       }
     }
+    this.computeProportion();
+    this.source = this.sortByCount(this.source);
+  }
+  sortByCount(source: sourceType[]) {
+    if (source.length <= 1) {
+      return source;
+    }
+    let index = Math.floor(source.length / 2);
+    let left: sourceType[] = [];
+    let right: sourceType[] = [];
+    let pivot = source.splice(index, 1)[0];
+    for (let i = 0; i < source.length; i++) {
+      if (source[i].count > pivot.count) {
+        left.push(source[i]);
+      } else {
+        right.push(source[i]);
+      }
+    }
+    const resultArray: sourceType[] = this.sortByCount(left).concat(pivot, this.sortByCount(right));
+    return resultArray;
+  }
+  computeProportion() {
+    let sum = 0;
+    for (let i = 0; i < this.source.length; i++) {
+      sum += this.source[i].count;
+    }
+    for (let i = 0; i < this.source.length; i++) {
+      const temp = this.source[i].count / sum;
+      this.source[i].proportion = Math.round(temp * 10000) / 100 + "%";
+    }
   }
 
   isExistInSource(tagName: string) {
     for (let i = 0; i < this.source.length; i++) {
-      if (this.source[i].product === tagName) {
+      if (this.source[i].tagName === tagName) {
         return i;
       }
     }
@@ -127,9 +160,6 @@ export default class Analyze extends Vue {
 
   chooseTime() {
     this.isShowDatePanel = true;
-  }
-  hideDatePanel() {
-    this.isShowDatePanel = false;
   }
 }
 </script>

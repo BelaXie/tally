@@ -1,13 +1,7 @@
 <template>
   <div class="wrapper">
-    <ul
-      class="list"
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-      :style="{top:currentTop+'px',transition}"
-    >
-      <li v-for="item in dataSource" :key="item">{{item}}</li>
+    <ul class="list" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" :style="{ top: currentTop + 'px', transition }">
+      <li v-for="item in dataSource" :key="item">{{ item }}</li>
     </ul>
   </div>
 </template>
@@ -24,7 +18,7 @@ export default class DatePanel extends Vue {
   transition: string = "";
   style = {
     top: this.currentTop + "px",
-    transition: ""
+    transition: "",
   };
   created() {
     this.initialMove(this.initialValue);
@@ -59,7 +53,7 @@ export default class DatePanel extends Vue {
     let index = -Math.round(this.currentTop / 30);
     index >= this.dataSource.length && (index = this.dataSource.length - 1);
     this.currentTop = -index * 30;
-    this.style.transition = "top 200ms ease-in";
+    this.style.transition = "top 1000ms ease-in";
     e.preventDefault();
     this.$emit("update:value", this.dataSource[index]);
   }

@@ -1,35 +1,20 @@
 <template>
-  <div class="panel" v-show="isShowDatePanel">
+  <div class="panel">
     <div class="top">
       <span class="now" @click="now">当前</span>
       <em class="chosen">
-        <span v-if="dateRange.year">{{year}}</span>
+        <span v-if="dateRange.year">{{ year }}</span>
         <span v-if="dateRange.month">-</span>
-        <span v-if="dateRange.month">{{month}}</span>
+        <span v-if="dateRange.month">{{ month }}</span>
         <span v-if="dateRange.day">-</span>
-        <span v-if="dateRange.day">{{day}}</span>
+        <span v-if="dateRange.day">{{ day }}</span>
       </em>
       <span class="ok" @click="ok">确定</span>
     </div>
     <div class="main">
-      <DateList
-        v-if="dateRange.year"
-        :value.sync="year"
-        :initialValue="year"
-        :dataSource="dateRange.year"
-      />
-      <DateList
-        v-if="dateRange.month"
-        :value.sync="month"
-        :initialValue="month"
-        :dataSource="dateRange.month"
-      />
-      <DateList
-        v-if="dateRange.day"
-        :value.sync="day"
-        :initialValue="day"
-        :dataSource="dateRange.day"
-      />
+      <DateList v-if="dateRange.year" :value.sync="year" :initialValue="year" :dataSource="dateRange.year" />
+      <DateList v-if="dateRange.month" :value.sync="month" :initialValue="month" :dataSource="dateRange.month" />
+      <DateList v-if="dateRange.day" :value.sync="day" :initialValue="day" :dataSource="dateRange.day" />
     </div>
   </div>
 </template>
@@ -79,6 +64,7 @@ export default class DatePanel extends Vue {
   width: 100%;
   background-color: white;
   position: absolute;
+  z-index: 1;
   bottom: 0px;
   > .top {
     display: flex;
