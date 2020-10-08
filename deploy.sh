@@ -17,9 +17,12 @@ git add -A
 git commit -m 'deploy'
 
 # if you are deploying to https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+git push -f git@github.com:BelaXie/tally.git master
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f git@github.com:BelaXie/tally-test-1.git master:gh-pages
+# github上：
+# git push -f git@github.com:BelaXie/tally-test-1.git master:gh-pages
+# 码云上：
+# git push -f git@gitee.com:belaxie/tally.git master:gh-pages
 
 cd -

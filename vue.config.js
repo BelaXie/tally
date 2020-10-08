@@ -20,27 +20,23 @@ module.exports = {
       .loader("svgo-loader")
       .tap((options) => ({
         ...options,
-        plugins: [
-          {
-            removeAttrs: {
-              attrs: "fill",
-            },
+        plugins: [{
+          removeAttrs: {
+            attrs: "fill",
           },
-        ],
+        }, ],
       }))
       .end();
     config
       .plugin("svg-sprite")
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      .use(require("svg-sprite-loader/plugin"), [
-        {
-          plainSprite: true,
-        },
-      ]);
+      .use(require("svg-sprite-loader/plugin"), [{
+        plainSprite: true,
+      }, ]);
     config.module.rule("svg").exclude.add(dir); // 其他 svg loader 排除 icons 目录
   },
   css: {
     extract: false,
   },
-  publicPath: process.env.NODE_ENV === "production" ? "/tally-test-1/" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/tally/" : "/",
 };
