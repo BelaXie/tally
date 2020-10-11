@@ -62,6 +62,7 @@ export default class DatePanel extends Vue {
 @import "~@/assets/style/helper.scss";
 .panel {
   width: 100%;
+  max-width: 500px;
   background-color: white;
   position: absolute;
   z-index: 1;

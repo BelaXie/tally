@@ -6,12 +6,7 @@
       </router-link>
     </div>
     <ul class="current">
-      <li
-        v-for="tag in tags"
-        :key="tag.id"
-        @click="toggle(tag)"
-        :class="{ selected: selectedTag===tag}"
-      >
+      <li v-for="tag in tags" :key="tag.id" @click="toggle(tag)" :class="{ selected: selectedTag === tag }">
         <Icon name="small-label" />
         {{ tag.name }}
       </li>

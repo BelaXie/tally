@@ -1,8 +1,15 @@
 <template>
   <Layout>
+    <div class="navBar">
+      <router-link to="/money" class="left">
+        记一笔
+      </router-link>
+      <span class="title">标签列表</span>
+      <span class="rightIcon"></span>
+    </div>
     <div class="tags">
       <router-link v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`" class="item">
-        <span>{{tag.name}}</span>
+        <span>{{ tag.name }}</span>
         <Icon name="right" />
       </router-link>
     </div>
@@ -38,14 +45,37 @@ export default class Labels extends Vue {
       }
     }
   }
+  goback() {
+    this.$router.back();
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+.navBar {
+  text-align: center;
+  font-size: 16px;
+  padding: 12px 16px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  > .left {
+    font-size: 13px;
+    font-weight: bold;
+    color: rgb(137, 184, 224);
+  }
+  > .rightIcon {
+    width: 24px;
+    height: 24px;
+  }
+}
 .tags {
+  margin-top: 8px;
   background: white;
   font-size: 16px;
   padding-left: 16px;
+  padding-right: 16px;
   > .item {
     min-height: 44px;
     display: flex;
@@ -55,8 +85,6 @@ export default class Labels extends Vue {
     svg {
       width: 18px;
       height: 18px;
-      // color: #666;
-      margin-right: 16px;
     }
   }
 }
