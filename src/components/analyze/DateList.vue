@@ -42,7 +42,7 @@ export default class DatePanel extends Vue {
     const limitRange = 50;
     const minTop = -(this.dataSource.length - 1) * 30 - limitRange;
     const maxTop = limitRange;
-    let top = this.currentTop + e.changedTouches[0].pageY - this.startPoint;
+    let top = this.currentTop + (e.changedTouches[0].pageY - this.startPoint) / 10;
     top = top < minTop ? minTop : top;
     top = top > maxTop ? maxTop : top;
     this.currentTop = top;
