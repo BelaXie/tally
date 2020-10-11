@@ -20,3 +20,7 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
+const clientWidth = document.documentElement.clientWidth;
+if (clientWidth > 762) {
+  window.alert("为确保使用效果，建议在手机上浏览使用");
+}
